@@ -6,33 +6,44 @@ import styles from '@styles/MyOrder.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export function MyOrder() {
+export function MyOrder({ handleToggle, myOrderRef }) {
 	const {
 		state: { cart },
 		cartLength,
+		totalCart,
 	} = useContext(AppContext);
 
-	const reduceTotal = () => cart.reduce((acc, cur) => acc + cur.price, 0);
-
 	return (
-		<aside className={styles.MyOrder}>
-			<div className={styles['title-container']}>
+		<aside
+			className={`${styles.MyOrder} ${styles.inTransition}`}
+			ref={myOrderRef}
+		>
+			<div
+				className={styles['title-container']}
+				role="button"
+				tabIndex={0}
+				onClick={handleToggle}
+			>
 				<Image src={ArrowIcon} alt="arrow" />
 				<p className={styles['title']}>My order</p>
 			</div>
+			{cartLength ? (
+				<div className={styles['my-order-items']}>
+					{cart.map((product) => (
+						<OrderItem product={product} key={`orderItem-${product.id}`} />
+					))}
+				</div>
+			) : (
+				''
+			)}
 			<div className={styles['my-order-content']}>
 				{cartLength ? (
 					<>
-						<div className={styles['my-order-items']}>
-							{cart.map((product) => (
-								<OrderItem product={product} key={`orderItem-${product.id}`} />
-							))}
-						</div>
 						<div className={styles['order']}>
 							<p>
 								<span>Total</span>
 							</p>
-							<p>${reduceTotal()}</p>
+							<p>${totalCart}</p>
 						</div>
 						<Link href={'/checkout'} className={styles['primary-button']}>
 							Checkout

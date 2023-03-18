@@ -13,7 +13,7 @@ export function ProductInfo({ product }) {
 				<p>{product.description}</p>
 				<button className="primary-button add-to-cart-button">
 					<Image src={addToCartIcon} alt="add to cart" />
-					Add to carte
+					Add to cart
 				</button>
 			</div>
 		</>

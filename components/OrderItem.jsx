@@ -22,7 +22,7 @@ export function OrderItem({ product }) {
 				/>
 			</figure>
 			<p>{product?.title}</p>
-			<p>{product?.price}</p>
+			<p>${product?.price}</p>
 			<Image
 				src={CloseIcon}
 				alt="close"

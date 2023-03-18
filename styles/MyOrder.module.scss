@@ -2,34 +2,46 @@
 
 .MyOrder {
 	width: 360px;
-	height: fit-content;
+	height: calc(100vh - 60px);
 	padding: 24px;
 	box-sizing: border-box;
-	position: absolute;
+	position: fixed;
 	right: 0;
 	background-color: $--white;
 	top: 60px;
 	bottom: 0;
 	border-radius: 6px;
 	border: 1px solid $--very-light-pink;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
 }
+
 .title-container {
 	display: flex;
 	align-items: center;
 	margin-bottom: 16px;
+	user-select: none;
 }
+
 .title-container img {
 	transform: rotate(180deg);
 	margin-right: 14px;
 }
+
 .title {
 	font-size: $--lg;
 	font-weight: bold;
 	margin: 0;
 }
+
 .my-order-items {
-	max-height: 500px;
 	overflow-y: auto;
+}
+
+.my-order-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .my-order-items::-webkit-scrollbar {
@@ -68,26 +80,28 @@
 	border-radius: 8px;
 	padding: 0 24px;
 }
+
 .order p:nth-child(1) {
 	display: flex;
 	flex-direction: column;
 }
+
 .order p span:nth-child(1) {
 	font-size: $--md;
 	font-weight: bold;
 }
+
 .order p:nth-child(2) {
 	text-align: end;
 	font-weight: bold;
 }
 
 .primary-button {
-	display: inline-block;
+	display: block;
 	background-color: $--hospital-green;
 	border-radius: 8px;
 	border: none;
 	color: $--white;
-	width: 100%;
 	cursor: pointer;
 	font-size: $--md;
 	font-weight: bold;
@@ -95,8 +109,35 @@
 	text-decoration: none;
 	text-align: center;
 }
+
+.inTransition {
+	animation: 0.5s forwards intransition;
+}
+
+.outTransition {
+	animation: 0.5s forwards outtransition;
+}
+
 @media (max-width: 640px) {
 	.MyOrder {
 		width: 100%;
+	}
+}
+
+@keyframes outtransition {
+	from {
+		right: 0;
+	}
+	to {
+		right: -100%;
+	}
+}
+
+@keyframes intransition {
+	from {
+		right: -100%;
+	}
+	to {
+		right: 0;
 	}
 }

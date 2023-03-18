@@ -1,15 +1,22 @@
 import React, { useContext } from 'react';
 import Image from 'next/image';
 import addToCartIcon from '@icons/bt_add_to_cart.svg';
+import addedToCartIcon from '@icons/bt_added_to_cart.svg';
 import { AppContext } from '@context/AppContext';
 import logo_yard_sale from '@logos/logo_yard_sale.svg';
 import styles from '@styles/ProductItem.module.scss';
 
 export function ProductItem({ product }) {
-	const { addToCart } = useContext(AppContext);
+	const { state, addToCart, removeFromCart } = useContext(AppContext);
+
+	const isInCart = state.cart.some((el) => el.id === product.id);
 
 	const handleClick = (item) => {
-		addToCart(item);
+		if (isInCart) {
+			removeFromCart(item);
+		} else {
+			addToCart(item);
+		}
 	};
 
 	return (
@@ -28,7 +35,7 @@ export function ProductItem({ product }) {
 				</div>
 				<figure>
 					<Image
-						src={addToCartIcon}
+						src={isInCart ? addedToCartIcon : addToCartIcon}
 						alt=""
 						onClick={() => handleClick(product)}
 					/>

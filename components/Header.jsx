@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import ShoppingCartIcon from '@icons/icon_shopping_cart.svg';
 import YardSaleLogo from '@logos/logo_yard_sale.svg';
 import MenuIcon from '@icons/icon_menu.svg';
@@ -6,6 +6,7 @@ import { Menu } from '@components/Menu';
 import { MyOrder } from '@containers/MyOrder';
 import { AppContext } from '@context/AppContext';
 import styles from '@styles/Header.module.scss';
+import myOrderStyles from '@styles/MyOrder.module.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,11 +15,22 @@ export function Header() {
 	const [toggle, setToggle] = useState(false);
 	const [toggleCart, setToggleCart] = useState(false);
 
+	const cartAside = useRef();
+
 	const handleToggle = () => {
 		setToggle(!toggle);
 	};
 	const handleToggleCart = () => {
-		setToggleCart(!toggleCart);
+		const cartRef = cartAside.current;
+
+		if (cartRef) {
+			cartRef.classList.add(myOrderStyles['outTransition']);
+			setTimeout(() => {
+				setToggleCart(!toggleCart);
+			}, 500);
+		} else {
+			setToggleCart(!toggleCart);
+		}
 	};
 
 	return (
@@ -67,7 +79,9 @@ export function Header() {
 				</ul>
 			</div>
 			{toggle && <Menu />}
-			{toggleCart && <MyOrder />}
+			{toggleCart && (
+				<MyOrder handleToggle={handleToggleCart} myOrderRef={cartAside} />
+			)}
 		</nav>
 	);
 }

@@ -24,5 +24,7 @@ export function useInitialState() {
 
 	const cartLength = state.cart.length;
 
-	return { state, addToCart, cartLength, removeFromCart };
+	const totalCart = state.cart.reduce((acc, cur) => acc + cur.price, 0);
+
+	return { state, addToCart, cartLength, removeFromCart, totalCart };
 }
